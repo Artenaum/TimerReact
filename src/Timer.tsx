@@ -1,44 +1,25 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import TimerDisplay from "./TimerDisplay"
+import TimerControls from "./TimerControls"
+import TimerSettings from "./TimerSettings"
 
 const Timer = () => {
 	const [seconds, setSeconds] = useState(0)
 	const [isRunning, setIsRunning] = useState(false)
 
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			if (isRunning) {
-				setSeconds(currentSecond => currentSecond + 1)
-			}
-		}, 10)
-
-		return () => clearInterval(interval)
-	}, [isRunning])
-
-	const startTimer = () => {
-		setIsRunning(true)
-	}
-
-	const pauseTimer = () => {
-		setIsRunning(false)
-	}
-
-	const resetTimer = () => {
-		setIsRunning(false)
-		setSeconds(0)
-	}
+	// 1. Сделать шестерёнку с настройками. Выбор между секундами и миллисекундами через радио кнопку
+	// 2. Сохранять время по нажатию reset в local storage в виде списка
+	// 3. В списке отображается выбранный формат
+	// 4. При наведении на элемент списка выделить элемент
+	// 5. Редактирование (кнопка удаления) так чтобы не было ререндера всего списка
 
 	return (
 		<div>
-			{seconds === 0 && (
-				<h3>0.00 seconds</h3>
-			)}
-			{seconds !== 0 && (
-				<h3>{Math.floor(seconds / 100) + '.' + seconds % 100 + ' seconds'}</h3>
-			)}
-			<button onClick={startTimer}>Start</button>
-			<button onClick={pauseTimer}>Pause</button>
-			<button onClick={resetTimer}>Reset</button>
+			<TimerDisplay seconds={seconds}/>
+			<div style={{display: 'flex', gap: '10px'}}>
+				<TimerControls isRunning={isRunning} setSeconds={setSeconds} setIsRunning={setIsRunning}/>
+				<TimerSettings/>
+			</div>
 		</div>
 	)
 }
