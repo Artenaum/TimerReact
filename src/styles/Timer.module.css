@@ -1,0 +1,7 @@
+.timerListItem {
+	border-radius: 10px;
+}
+
+.timerListItem:hover {
+	border: 1px solid #646cff;
+}

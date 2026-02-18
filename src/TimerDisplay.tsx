@@ -9,9 +9,6 @@ const TimerDisplay = (props: any) => {
 		const checkSelectedUnit = () => {
 			const selectedUnit = window.localStorage.getItem('unit')
 
-			console.log(selectedUnit)
-			console.log('hello')
-
 			if (selectedUnit) {
 				setUnit(selectedUnit)
 			}
@@ -25,16 +22,23 @@ const TimerDisplay = (props: any) => {
 	}, [])
 
 	return (
-		<div>
-			{unit === 'seconds' && (
+		<div className="inline-component">
+			{unit === 'seconds' && props.type === 'MainDisplay' && (
 				props.seconds === 0 ? (
 					<h3>0.00 seconds</h3>
 				) : (
 					<h3>{Math.floor(props.seconds / 100) + '.' + props.seconds % 100 + ' seconds'}</h3>
 				)
 			)}
-			{unit === 'milliseconds' && (
+			{unit === 'milliseconds' && props.type === 'MainDisplay' && (
 				<h3>{props.seconds * 10} milliseconds</h3>
+			)}
+
+			{unit === 'seconds' && props.type === 'TableDisplay' && (
+				<p>{Math.floor(props.seconds / 100) + '.' + props.seconds % 100 + ' seconds'}</p>
+			)}
+			{unit === 'milliseconds' && props.type === 'TableDisplay' && (
+				<p>{props.seconds * 10} milliseconds</p>
 			)}
 		</div>
 	)

@@ -2,6 +2,7 @@ import { useState } from "react"
 import TimerDisplay from "./TimerDisplay"
 import TimerControls from "./TimerControls"
 import TimerSettings from "./TimerSettings"
+import TimerList from "./TimerList"
 
 const Timer = () => {
 	const [seconds, setSeconds] = useState(0)
@@ -14,12 +15,13 @@ const Timer = () => {
 	// 5. Редактирование (кнопка удаления) так чтобы не было ререндера всего списка
 
 	return (
-		<div>
-			<TimerDisplay seconds={seconds}/>
+		<div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+			<TimerDisplay seconds={seconds} type={'MainDisplay'}/>
 			<div style={{display: 'flex', gap: '10px'}}>
-				<TimerControls isRunning={isRunning} setSeconds={setSeconds} setIsRunning={setIsRunning}/>
+				<TimerControls isRunning={isRunning} seconds={seconds} setSeconds={setSeconds} setIsRunning={setIsRunning}/>
 				<TimerSettings/>
 			</div>
+			<TimerList/>
 		</div>
 	)
 }

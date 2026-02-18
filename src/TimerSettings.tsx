@@ -3,7 +3,7 @@ import gearIcon from './assets/gear.png'
 
 const TimerSettings = () => {
 	const [menuOpen, setMenuOpen] = useState(false)
-	const [selection, setSelection] = useState('')
+	const [selection, setSelection] = useState('seconds')
 
 	const toggleSettings = () => {
 		setMenuOpen(!menuOpen)

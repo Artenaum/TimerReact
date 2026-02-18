@@ -3,7 +3,7 @@ import { memo, useEffect } from "react"
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TimerControls = (props: any) => {
 	
-		const {isRunning, setSeconds, setIsRunning} = props
+		const {isRunning, seconds, setSeconds, setIsRunning} = props
 
 		useEffect(() => {
 			const interval = setInterval(() => {
@@ -14,7 +14,7 @@ const TimerControls = (props: any) => {
 			}, 10)
 	
 			return () => clearInterval(interval)
-		}, [props.isRunning, props.setSeconds])
+		}, [props.isRunning, setSeconds])
 	
 		const startTimer = () => {
 			setIsRunning(true)
@@ -27,20 +27,49 @@ const TimerControls = (props: any) => {
 		const resetTimer = () => {
 			setIsRunning(false)
 			setSeconds(0)
+			saveData(seconds)
+		}
+
+		const saveData = (time: number) => {
+			const storedData = window.localStorage.getItem('savedTimes')
+
+			if (storedData) {
+				const parsedStoredData = JSON.parse(storedData)
+				
+				const lastId = parsedStoredData[parsedStoredData.length - 1].id
+
+				const dataToSave = [...parsedStoredData, {
+					id: lastId + 1,
+					time
+				}]
+
+				window.localStorage.setItem('savedTimes', JSON.stringify(dataToSave))
+				window.dispatchEvent(new Event('storage'))
+			} else {
+				const dataToSave = [
+					{
+						id: 1,
+						time
+					}
+				]
+
+				window.localStorage.setItem('savedTimes', JSON.stringify(dataToSave))
+				window.dispatchEvent(new Event('storage'))
+			}
 		}
 
 	return (
 		<>
 			<button disabled={isRunning} onClick={startTimer}>
-				{isRunning && (
+				{!isRunning && seconds !== 0 && (
 					<span>Resume</span>
 				)}
-				{!isRunning && (
+				{(isRunning || seconds === 0) && (
 					<span>Start</span>
 				)}
 			</button>
-			<button onClick={pauseTimer}>Pause</button>
-			<button disabled={isRunning} onClick={resetTimer}>Reset</button>
+			<button disabled={!isRunning} onClick={pauseTimer}>Pause</button>
+			<button disabled={isRunning || seconds === 0} onClick={resetTimer}>Reset</button>
 		</>
 	)
 }
