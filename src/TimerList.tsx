@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import type { TimeRecord } from "./types/Timer.types"
-import TimerDisplay from "./TimerDisplay"
-import styles from './styles/Timer.module.css'
+import TimerListItem from "./TimerListItem"
 
 const TimerList = () => {
 	const [times, setTimes] = useState<TimeRecord[]>([])
@@ -15,8 +14,6 @@ const TimerList = () => {
 		}
 
 		retreiveTimes()
-
-		console.log(styles)
 
 		window.addEventListener('storage', retreiveTimes)
 
@@ -32,9 +29,7 @@ const TimerList = () => {
 			)}
 			{times.length !== 0 && (
 				times.map(time => 
-					<div key={time.id} className={styles.timerListItem}>
-						{time.id}. <TimerDisplay type={'TableDisplay'} seconds={time.time}/>
-					</div>
+					<TimerListItem key={time.id} recordId={time.id} recordTime={time.time}/>
 				)
 			)}
 		</div>
